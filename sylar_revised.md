@@ -20,7 +20,7 @@ conda deactivate
 ### 2.1 安装不在乎版本的包 
 ```
 sudo apt update
-sudo apt install protobuf-compiler libprotobuf-dev libboost-all-dev libmysqlclient-dev ragel libjsoncpp-dev libyaml-cpp-dev libtinyxml2-dev libjemalloc-dev sqlite3 libsqlite3-dev
+sudo apt install protobuf-compiler libprotobuf-dev libboost-all-dev libmysqlclient-dev ragel libjsoncpp-dev libyaml-cpp-dev libtinyxml2-dev libjemalloc-dev sqlite3 libsqlite3-dev  build-essential autoconf automake libtool libcppunit-dev maven
 ```
 注意！！可能不止这些包！
 
@@ -33,16 +33,7 @@ wget https://archive.apache.org/dist/zookeeper/zookeeper-3.7.0/apache-zookeeper-
 我是直接从网页下载的。
 ```
 tar -xvzf apache-zookeeper-3.7.0.tar.gz
-cd apache-zookeeper-3.7.0
-```
-安装编译C API的必要依赖
-```
-sudo apt update
-sudo apt install build-essential autoconf automake libtool libcppunit-dev maven
-```
-生成`zookeeper-jute.h`文件
-```
-cd ./zookeeper-jute
+cd apache-zookeeper-3.7.0/zookeeper-jute
 mvn compile
 cd ../zookeeper-client/zookeeper-client-c
 ./configure
@@ -98,7 +89,7 @@ ln -s /usr/lib/aarch64-linux-gnu/libmysqlclient.so /usr/lib/aarch64-linux-gnu/li
 理由：这个东西会让编译时所有的warning变成error，很烦。具体说来，warning的东西就是代码会忽略一些函数的返回值，总不可能改代码吧。能用就行。
 
 ## 4.源代码修改
-### 4.1 `./sylar/db/mysql.cc`
+### 4.1 `./sylar/db/mysql.h`
 把所有的`my_bool`改为`bool`即可
 
 理由：新版本的mysql弃用了`my_bool`，直接改为`bool`在网上似乎是推荐做法
